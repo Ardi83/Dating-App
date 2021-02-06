@@ -10,11 +10,11 @@ import { HttpClient } from '@angular/common/http';
 
 export class AppComponent implements OnInit{
   title = 'Dating app';
-  users: object;
+  users: User[];
   constructor(private http: HttpClient) {}
 
   getUsers(): void {
-    this.http.get('https://localhost:5001/api/users').subscribe(x => {
+    this.http.get('https://localhost:5001/api/users').subscribe((x: User[]) => {
       this.users = x;
       console.log(this.users)
       }, error => console.log(error)
