@@ -36,7 +36,12 @@ namespace API
     {
       services.AddApplicationServices(_config);
       services.AddControllers();
-      services.AddCors();
+      services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+        {
+          builder.WithOrigins("http://localhost:4200")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        }));
       services.AddIdentityServices(_config);
       services.AddSwaggerGen(c =>
       {
@@ -58,9 +63,10 @@ namespace API
 
       app.UseRouting();
 
-      app.UseCors(policy => policy.AllowAnyMethod().WithOrigins("http://localhost:4200"));
+      app.UseCors("MyPolicy");
 
       app.UseAuthentication();
+      
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
