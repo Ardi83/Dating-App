@@ -2,8 +2,8 @@ import { environment } from './../../environments/environment';
 import { User } from './../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators'
-import { ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  login(model: any) {
+  login(model: any): Observable<void> {
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
         const user = response;
@@ -27,7 +27,7 @@ export class AccountService {
     );
   }
 
-  register(model: any) {
+  register(model: any): Observable<void> {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
       map((user: User) => {
         localStorage.setItem('user', JSON.stringify(user))
@@ -36,11 +36,11 @@ export class AccountService {
     )
   }
 
-  setCurrentUser(user: User) {
+  setCurrentUser(user: User): void {
     this.currentUserSource.next(user);
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
   }
