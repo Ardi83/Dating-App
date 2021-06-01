@@ -3,7 +3,7 @@ import { MembersService } from './../../_services/members.service';
 import { AccountService } from './../../_services/account.service';
 import { User } from './../../_models/user';
 import { Member } from './../../_models/member';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 
