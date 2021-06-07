@@ -1,6 +1,6 @@
 import { UserParams } from './../_models/userParams';
 import { PaginatedResult } from './../_models/pagination';
-import { Observable, of } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -14,7 +14,7 @@ export class MembersService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getMembers(userParams: UserParams): Observable<PaginatedResult<Member[]>> {
     let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
@@ -22,13 +22,16 @@ export class MembersService {
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
     params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
   }
 
   getMember(username: string): Observable<Member> {
     const member = this.members.find(x => x.username === username);
-    if (member) { return of(member); }
+    if (member) {
+      return of(member);
+    }
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
