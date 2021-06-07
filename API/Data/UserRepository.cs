@@ -24,10 +24,10 @@ namespace API.Data
 
     public async Task<MemberDto> GetMemberByIdAsync(int id)
     {
-       return await _context.Users
-        .Where(x => x.Id == id)
-        .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-        .SingleOrDefaultAsync();
+      return await _context.Users
+       .Where(x => x.Id == id)
+       .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+       .SingleOrDefaultAsync();
     }
 
     public async Task<MemberDto> GetMemberAsync(string username)
