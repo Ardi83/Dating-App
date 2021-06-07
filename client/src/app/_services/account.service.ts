@@ -13,7 +13,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(model: any): Observable<void> {
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
