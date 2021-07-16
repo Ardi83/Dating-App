@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Member } from '../_models/member';
 import { map, take } from 'rxjs/operators';
 import { User } from '../_models/user';
+import { LikesParams } from '../_models/LikesParams';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,17 @@ export class MembersService {
 
   deletePhoto(photoId: number): Observable<any> {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
+  addLike(username: string): Observable<any> {
+    return this.http.post(this.baseUrl + 'likes/' + username, {});
+  }
+
+  getLikes(likesParams: LikesParams): Observable<PaginatedResult<Partial<Member[]>>> {
+    let params = this.getPaginationHeaders(likesParams.pageNumber, likesParams.pageSize);
+    params = params.append('predicate', likesParams.predicate);
+
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
   }
 
   private getPaginatedResult<T>(url: string, params: HttpParams): Observable<PaginatedResult<T>> {
